@@ -16,7 +16,11 @@ namespace StellarWallet
             Console.WriteLine(address);
 
             await GetAccountBalance(keyPair);
-            await CreateRandomAccount();
+            //await CreateRandomAccount();
+            var destID = "GB2SX6YMOSLLNFJRHTV4C3QCRBMPL34UY2PRQH3YA7ZMU2ZGIPK5NVW2";
+            await MakePayment(destID, 99);
+            await GetAccountBalance(keyPair);
+            await GetAccountBalance(KeyPair.FromAccountId(destID));
 
         }
 
@@ -31,7 +35,39 @@ namespace StellarWallet
             }
         }
 
-        //public static async Task CreateRandomAccount()
+        public async static Task MakePayment(string destAccountID,int amount)
+        {
+            Network.Use(new Network("Test Newton Network ; 2018-02-27"));
+            var destAccountKeyPair = KeyPair.FromAccountId(destAccountID);
+
+            var server = new Server(horizonUrl);
+            var destAccount = server.Accounts.Account(destAccountKeyPair);
+            var sourceKeypair = KeyPair.FromSecretSeed(seed);
+            var sourceAccountResp = await server.Accounts.Account(sourceKeypair);
+            var sourceAccount = new Account(sourceKeypair, sourceAccountResp.SequenceNumber);
+            var operation = new PaymentOperation.Builder(destAccountKeyPair, new AssetTypeNative(), amount.ToString()).Build();
+            var transaction = new Transaction.Builder(sourceAccount).AddOperation(operation).AddMemo(Memo.Text("sample payment")).Build();
+            transaction.Sign(sourceKeypair);
+
+            try
+            {
+                var resp = await server.SubmitTransaction(transaction);
+                if (resp.IsSuccess())
+                {
+                    Console.WriteLine("transaction completed successfully!");
+                    await GetAccountBalance(destAccountKeyPair);
+                }
+                else
+                {
+                    Console.WriteLine("transaction failed.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
         public async static Task CreateRandomAccount()
         {
             Network.Use(new Network("Test Newton Network ; 2018-02-27"));
