@@ -33,7 +33,7 @@ namespace StellarWallet
         private static string seed = "";
         private static string horizonUrl = "";
 
-        public static bool ReadWalletConfig()
+        private static bool ReadWalletConfig()
         {
             try
             {
@@ -91,7 +91,7 @@ namespace StellarWallet
             return;
         }
 
-        public async static Task GetAccountBalance(KeyPair keyPair)
+        private static async Task GetAccountBalance(KeyPair keyPair)
         {
             var server = new Server(horizonUrl);
             var account = await server.Accounts.Account(keyPair);
@@ -102,7 +102,7 @@ namespace StellarWallet
             }
         }
 
-        public async static Task MakePayment(string destAccountID,int amount)
+        private static async Task MakePayment(string destAccountID,int amount)
         {
             Network.Use(new Network(NetworkPassphrase));
             var destAccountKeyPair = KeyPair.FromAccountId(destAccountID);
@@ -135,7 +135,7 @@ namespace StellarWallet
             }
         }
 
-        public async static Task CreateAccount(KeyPair destAccount)
+        private static async Task CreateAccount(KeyPair destAccount)
         {
             Network.Use(new Network(NetworkPassphrase));
             Console.WriteLine(destAccount.Address);
@@ -174,7 +174,7 @@ namespace StellarWallet
 
         }
 
-        public async static Task CreateRandomAccount()
+        public static async Task CreateRandomAccount()
         {
             Network.Use(new Network(NetworkPassphrase));
             var destAccount = KeyPair.Random();
