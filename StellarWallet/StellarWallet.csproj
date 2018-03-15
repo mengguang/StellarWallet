@@ -10,7 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\stellar-dotnetcore-sdk\stellar-dotnetcore-sdk.csproj" />
+    <PackageReference Include="docopt.net" Version="0.6.1.9" />
+    <PackageReference Include="Nett" Version="0.8.0" />
+    <PackageReference Include="stellar-dotnetcore-sdk" Version="1.0.3" />
   </ItemGroup>
 
 </Project>

@@ -3,3 +3,7 @@
 ################################################################################
 
 /StellarWallet/.vs/StellarWallet/v15
+/StellarWallet/bin/Debug/netcoreapp2.0
+/StellarWallet/obj
+/.vs
+/StellarWallet/.vs/config
