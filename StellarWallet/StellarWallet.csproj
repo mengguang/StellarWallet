@@ -9,10 +9,18 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="docopt.net" Version="0.6.1.9" />
     <PackageReference Include="Nett" Version="0.8.0" />
     <PackageReference Include="stellar-dotnetcore-sdk" Version="1.0.3" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy $(ProjectDir)config.tml $(OutDir) /Y" />
+  </Target>
 
 </Project>
