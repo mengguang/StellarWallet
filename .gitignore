@@ -7,3 +7,6 @@
 /StellarWallet/obj
 /.vs
 /StellarWallet/.vs/config
+/StellarWallet/bin/Release
+/StellarWallet/Properties/PublishProfiles
+/StellarWallet/StellarWallet.csproj.user
