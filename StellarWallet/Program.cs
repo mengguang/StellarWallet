@@ -37,25 +37,56 @@ namespace StellarWallet
             if(arguments["new_account"].IsTrue)
             {
                 var destAccount = stellar.RandomAccount();
-                Console.WriteLine(destAccount.Address);
-                Console.WriteLine(destAccount.SecretSeed);
+                Console.WriteLine("Address:    " + destAccount.Address);
+                Console.WriteLine("SecretSeed: " + destAccount.SecretSeed);
                 return;
             }
             if (arguments["check_balance"].IsTrue)
             {
-                var destAccount = KeyPair.FromAccountId(arguments["<account_id>"].ToString());
+                KeyPair destAccount;
+                try
+                {
+                    destAccount = KeyPair.FromAccountId(arguments["<account_id>"].ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid account_id, please check it again.");
+                    Console.WriteLine("Exception Message: " + e.Message);
+                    return;
+                }
+                
                 await stellar.GetAccountBalance(destAccount);
                 return;
             }
             if (arguments["active_account"].IsTrue)
             {
-                var destAccount = KeyPair.FromAccountId(arguments["<account_id>"].ToString());
+                KeyPair destAccount;
+                try
+                {
+                    destAccount = KeyPair.FromAccountId(arguments["<account_id>"].ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid account_id, please check it again.");
+                    Console.WriteLine("Exception Message: " + e.Message);
+                    return;
+                }
                 await stellar.CreateAccount(destAccount);
                 return;
             }
             if (arguments["pay"].IsTrue)
             {
-                var destAccount = KeyPair.FromAccountId(arguments["<account_id>"].ToString());
+                KeyPair destAccount;
+                try
+                {
+                    destAccount = KeyPair.FromAccountId(arguments["<account_id>"].ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid account_id, please check it again.");
+                    Console.WriteLine("Exception Message: " + e.Message);
+                    return;
+                }
                 var amount = arguments["<amount>"].ToString();
                 await stellar.MakePayment(destAccount,amount);
                 return;
